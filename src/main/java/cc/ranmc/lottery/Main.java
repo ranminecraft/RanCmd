@@ -79,40 +79,21 @@ public class Main extends JavaPlugin implements Listener {
         Player player = (Player) sender;
         if (cmd.getName().equalsIgnoreCase("ranl")) {
             if (sender.hasPermission("ranl.user")) {
-                // 开始抽奖
-                int level = dataYml.getInt(player.getName(), 1);
-                double change = getConfig().getDouble(level + ".change");
-                if (change == 0) {
-                    level = 1;
-                    change = getConfig().getDouble("1.change");
-                }
-                if (change == 0) {
-                    sender.sendMessage(PREFIX + color("&c配置错误请联系管理员"));
-                    return true;
-                }
-                if (change >= Math.random()) {
-                    getConfig().getStringList(level + ".final-reward").forEach(command -> {
-                        if (papi != null) {
-                            command = PlaceholderAPI.setPlaceholders(player, command);
-                        }
-                        run(command.replace("%player%", player.getName()));
-                    });
-                    level++;
+                if (args.length == 0) {
+                    start(player);
                 } else {
-                    List<String> rewardList = getConfig().getStringList(level + ".other-reward");
-                    String command = rewardList.get(new Random().nextInt(rewardList.size()));
-                    if (papi != null) {
-                        command = PlaceholderAPI.setPlaceholders(player, command);
+                    int count = 0;
+                    try {
+                        count = Integer.parseInt(args[0]);
+                    } catch (NumberFormatException ignored) {}
+                    if (count <= 0) {
+                        sender.sendMessage(PREFIX + color("&c错误连续抽奖次数"));
+                        return true;
                     }
-                    run(command.replace("%player%", player.getName()));
-                    level--;
-                    if (level <= 0) level = 1;
-                }
-                dataYml.set(player.getName(), level);
-                try {
-                    dataYml.save(dataFile);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    while (count > 0) {
+                        count--;
+                        start(player);
+                    }
                 }
                 return true;
             } else {
@@ -122,6 +103,49 @@ public class Main extends JavaPlugin implements Listener {
 
         sender.sendMessage(PREFIX + color("&c未知指令"));
         return true;
+    }
+
+    private void start(Player player) {
+        if (!CostUtil.cost(player)) {
+            player.sendMessage(color(getConfig().getString("lang",
+                            "&c你没有持有足够的消耗物品")));
+            return;
+        }
+        // 开始抽奖
+        int level = dataYml.getInt(player.getName(), 1);
+        double change = getConfig().getDouble(level + ".change");
+        if (change == 0) {
+            level = 1;
+            change = getConfig().getDouble("1.change");
+        }
+        if (change == 0) {
+            player.sendMessage(PREFIX + color("&c配置错误请联系管理员"));
+            return;
+        }
+        if (change >= Math.random()) {
+            getConfig().getStringList(level + ".final-reward").forEach(command -> {
+                if (papi != null) {
+                    command = PlaceholderAPI.setPlaceholders(player, command);
+                }
+                run(command.replace("%player%", player.getName()));
+            });
+            level++;
+        } else {
+            List<String> rewardList = getConfig().getStringList(level + ".other-reward");
+            String command = rewardList.get(new Random().nextInt(rewardList.size()));
+            if (papi != null) {
+                command = PlaceholderAPI.setPlaceholders(player, command);
+            }
+            run(command.replace("%player%", player.getName()));
+            level--;
+            if (level <= 0) level = 1;
+        }
+        dataYml.set(player.getName(), level);
+        try {
+            dataYml.save(dataFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -154,7 +178,7 @@ public class Main extends JavaPlugin implements Listener {
     /**
      * 文本颜色
      */
-    private static String color(String text){
+    public static String color(String text){
         return text.replace("&","§");
     }
 
