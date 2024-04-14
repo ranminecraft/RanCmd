@@ -1,1 +1,36 @@
-enable: true
+# 第一层
+"1":
+  # 最终奖励获得概率 100% 代表 1
+  change: 0.75
+  # 最终奖励
+  final-reward:
+    - give %player% diamond 1
+    - say %player% 晋级第二层啦
+  # 其他奖励 一行一条
+  other-reward:
+    - give %player% stone 1
+    - give %player% apple 1
+
+# 第二层
+"2":
+  # 最终奖励获得概率 100% 代表 1
+  change: 0.5
+  # 最终奖励
+  final-reward:
+    - give %player% diamond 2
+    - say %player% 晋级第三层啦
+  # 其他奖励 一行一条
+  other-reward:
+    - give %player% stone 2
+    - give %player% apple 2
+
+# 第二层
+"3":
+  # 最终奖励获得概率 100% 代表 1
+  change: 1
+  # 最终奖励
+  final-reward:
+    - give %player% diamond 64
+    - say %player% 满级啦
+  # 其他奖励 一行一条
+  other-reward: []
