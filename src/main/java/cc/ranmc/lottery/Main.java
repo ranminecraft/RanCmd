@@ -137,11 +137,13 @@ public class Main extends JavaPlugin implements Listener {
             level++;
         } else {
             List<String> rewardList = getConfig().getStringList(level + ".other-reward");
-            String command = rewardList.get(new Random().nextInt(rewardList.size()));
-            if (papi != null) {
-                command = PlaceholderAPI.setPlaceholders(player, command);
+            if (!rewardList.isEmpty()) {
+                String command = rewardList.get(new Random().nextInt(rewardList.size()));
+                if (papi != null) {
+                    command = PlaceholderAPI.setPlaceholders(player, command);
+                }
+                run(command.replace("%player%", player.getName()));
             }
-            run(command.replace("%player%", player.getName()));
             level--;
             if (level <= 0) level = 1;
         }
