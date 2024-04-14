@@ -59,16 +59,21 @@ public class Main extends JavaPlugin implements Listener {
                              String[] args) {
 
 
-        if (cmd.getName().equalsIgnoreCase("ranl")) {
-            if (args.length == 1 &&
-                    args[0].equalsIgnoreCase("reload")){
-                if (sender.hasPermission("ranl.admin")) {
-                    loadConfig();
-                    sender.sendMessage(PREFIX + color("&a重载成功"));
-                    return true;
-                } else {
-                    sender.sendMessage(PREFIX + color("&c没有权限"));
-                }
+        if (cmd.getName().equalsIgnoreCase("ranl") &&
+                sender.hasPermission("ranl.admin") &&
+                args.length == 1) {
+            if (args[0].equalsIgnoreCase("reload")){
+                loadConfig();
+                sender.sendMessage(PREFIX + color("&a重载成功"));
+                return true;
+            } else if (args[0].equalsIgnoreCase("help")){
+                sender.sendMessage(PREFIX + color(
+                        "&a感谢你的使用&e\n" +
+                                "/ranl reload 重载插件\n" +
+                                "/ranl help 帮助信息\n" +
+                                "/ranl <次数> 连续抽奖\n" +
+                                "&d作者阿然 QQ2263055528"));
+                return true;
             }
         }
 
