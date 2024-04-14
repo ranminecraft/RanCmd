@@ -147,6 +147,8 @@ public class Main extends JavaPlugin implements Listener {
             level--;
             if (level <= 0) level = 1;
         }
+        String countName = "count." + player.getName();
+        dataYml.set(countName, dataYml.getInt(countName, 0) + 1);
         dataYml.set(player.getName(), level);
         try {
             dataYml.save(dataFile);
