@@ -1,8 +1,10 @@
 package cc.ranmc.rancmd;
 
 import cc.ranmc.rancmd.command.MainCommand;
+import cc.ranmc.rancmd.command.MainTabComplete;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,7 +39,9 @@ public class Main extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
 
         // 注册指令
-        Bukkit.getPluginCommand("rancmd").setExecutor(new MainCommand());
+        PluginCommand mainCmd = Bukkit.getPluginCommand("rancmd");
+        mainCmd.setExecutor(new MainCommand());
+        mainCmd.setTabCompleter(new MainTabComplete());
 
         super.onEnable();
     }
