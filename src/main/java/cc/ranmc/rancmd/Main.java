@@ -3,6 +3,7 @@ package cc.ranmc.rancmd;
 import cc.ranmc.rancmd.command.MainCommand;
 import cc.ranmc.rancmd.command.MainTabComplete;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -32,6 +33,9 @@ public class Main extends JavaPlugin implements Listener {
         print("&b服务器版本:"+getServer().getVersion());
         print("&chttps://www.ranmc.cc/");
         print("&e-----------------------");
+
+        // BStats
+        new Metrics(this, 28165);
 
         loadConfig();
 
