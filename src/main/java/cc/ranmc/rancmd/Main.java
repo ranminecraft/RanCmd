@@ -1,5 +1,6 @@
-package cc.ranmc.ranov;
+package cc.ranmc.rancmd;
 
+import cc.ranmc.rancmd.command.MainCommand;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,14 +9,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-import static cc.ranmc.ranov.util.BasicUtil.color;
-import static cc.ranmc.ranov.util.BasicUtil.print;
+import static cc.ranmc.rancmd.util.BasicUtil.color;
+import static cc.ranmc.rancmd.util.BasicUtil.print;
 
 public class Main extends JavaPlugin implements Listener {
 
-    private static final String PLUGIN = "Ranov";
+    private static final String PLUGIN = "RanCmd";
     public static final String PREFIX = color("&b" + PLUGIN + ">>>");
-    private File dataFile;
     @Getter
     private YamlConfiguration dataYml;
     @Getter
@@ -36,6 +36,9 @@ public class Main extends JavaPlugin implements Listener {
         // 注册Event
         Bukkit.getPluginManager().registerEvents(this, this);
 
+        // 注册指令
+        Bukkit.getPluginCommand("rancmd").setExecutor(new MainCommand());
+
         super.onEnable();
     }
 
@@ -46,9 +49,9 @@ public class Main extends JavaPlugin implements Listener {
         saveDefaultConfig();
         reloadConfig();
 
-        dataFile = new File(getDataFolder(), "data.yml");
+        /*File dataFile = new File(getDataFolder(), "data.yml");
         if (!dataFile.exists()) saveResource("data.yml", false);
-        dataYml = YamlConfiguration.loadConfiguration(dataFile);
+        dataYml = YamlConfiguration.loadConfiguration(dataFile);*/
 
         /*if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             papi = new Papi();

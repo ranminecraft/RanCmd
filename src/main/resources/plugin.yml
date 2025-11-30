@@ -1,20 +1,20 @@
-name: Ranov
-main: cc.ranmc.ranov.Main
-description: '阿然定制24k纯钛合金超级无敌终终终终极版的Ranov插件'
+name: RanCmd
+main: cc.ranmc.rancmd.Main
+description: '阿然定制24k纯钛合金超级无敌终终终终极版的指令插件'
 website: https://www.ranmc.cc/
 author: Ranica
 version: ${project.version}
 
 permissions:
-  ranov.user:
+  rancmd.user:
     default: true
     description: 'user only'
 
-  ranov.admin:
+  rancmd.admin:
     default: op
     description: 'admin only'
 
 commands:
-  ranov:
-    description: ranov
+  rancmd:
+    description: rancmd
     usage: /<command>
