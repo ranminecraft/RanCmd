@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MainTabComplete implements TabCompleter {
@@ -17,9 +18,9 @@ public class MainTabComplete implements TabCompleter {
                                       @NotNull String alias,
                                       String[] args) {
         if (!sender.hasPermission("rancmd.admin")) return new ArrayList<>();
-        if (args.length == 1) return Arrays.asList("reload", "help", "cmd");
-        if (args.length == 2 && args[0].equals("cmd")) return null;
-        if (args.length == 3 && args[0].equals("cmd")) return Arrays.asList("指令(不带斜杠)");;
+        if (args.length == 1) return Arrays.asList("reload", "help", "cmd", "opcmd");
+        if (args.length == 2 && Arrays.asList("cmd", "opcmd").contains(args[0])) return null;
+        if (args.length == 3 && Arrays.asList("cmd", "opcmd").contains(args[0])) return Collections.singletonList("指令(不带斜杠)");;
         return new ArrayList<>();
     }
 
