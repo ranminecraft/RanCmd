@@ -6,7 +6,7 @@
 
     <groupId>cc.ranmc.rancmd</groupId>
     <artifactId>RanCmd</artifactId>
-    <version>Release</version>
+    <version>Release 1.1</version>
 
     <properties>
         <java.version>1.8</java.version>

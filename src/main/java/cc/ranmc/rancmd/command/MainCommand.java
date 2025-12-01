@@ -37,21 +37,19 @@ public class MainCommand implements CommandExecutor {
                         "&a感谢你的使用&e\n" +
                                 "/rancmd help 插件帮助\n" +
                                 "/rancmd reload 重载插件\n" +
-                                "/rancmd cmd <玩家名> <指令内容> 使玩家执行指令\n" +
-                                "&d作者阿然 QQ2263055528"));
+                                "/rancmd cmd <玩家名> <指令> 使玩家执行指令\n" +
+                                "/rancmd opcmd <玩家名> <指令> 使玩家以op执行指令"));
                 return true;
             }
         }
 
         if (args.length >= 3) {
             if (args[0].equalsIgnoreCase("cmd")) {
-
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
                     sender.sendMessage(PREFIX + color("&c该玩家不在线"));
                     return true;
                 }
-
                 StringBuilder builder = new StringBuilder();
                 for (int i = 2; i < args.length; i++) {
                     builder.append(args[i]).append(" ");
@@ -59,9 +57,30 @@ public class MainCommand implements CommandExecutor {
                 if (builder.length() > 0) {
                     builder.deleteCharAt(builder.length() - 1);
                 }
-
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () ->
                         Bukkit.dispatchCommand(target, builder.toString()));
+                sender.sendMessage(PREFIX + color("&a执行成功"));
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("opcmd")) {
+                Player target = Bukkit.getPlayer(args[1]);
+                if (target == null) {
+                    sender.sendMessage(PREFIX + color("&c该玩家不在线"));
+                    return true;
+                }
+                StringBuilder builder = new StringBuilder();
+                for (int i = 2; i < args.length; i++) {
+                    builder.append(args[i]).append(" ");
+                }
+                if (builder.length() > 0) {
+                    builder.deleteCharAt(builder.length() - 1);
+                }
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                    boolean op = target.isOp();
+                    if (!op) target.setOp(true);
+                    Bukkit.dispatchCommand(target, builder.toString());
+                    target.setOp(op);
+                });
                 sender.sendMessage(PREFIX + color("&a执行成功"));
                 return true;
             }
